@@ -30,10 +30,8 @@ app.post('/userinfo', (req, res) => {
   //Store the options for Zoom API which will be used to make an API call later.
   var options = {
     //You can use a different uri if you're making an API call to a different Zoom endpoint.
-    uri: "https://api.zoom.us/v2/users/"+email, 
-    qs: {
-        status: 'active' 
-    },
+    method: 'POST',
+    uri: "https://api.zoom.us/v2/users/"+email+"/meetings", 
     auth: {
         'bearer': token
     },
@@ -41,7 +39,15 @@ app.post('/userinfo', (req, res) => {
         'User-Agent': 'Zoom-api-Jwt-Request',
         'content-type': 'application/json'
     },
-    json: true //Parse the JSON string in the response
+      json: {
+          "topic": "Weekly Meeting",
+	        "type": "2",
+	        "start_time": "2020-05-31T18:30:00",
+	        "timezone": "Asia/Tokyo",
+	        "settings": {
+		        "use_pmi": "false"
+	        }
+      }
 };
 
 //Use request-promise module's .then() method to make request calls.
